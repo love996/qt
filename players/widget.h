@@ -1,7 +1,8 @@
-#ifndef WIDGET_H
+﻿#ifndef WIDGET_H
 #define WIDGET_H
 
 #include <QWidget>
+#include <QTimer>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class Widget; }
@@ -19,7 +20,15 @@ public:
 private slots:
     void on_add_player_clicked();
 
+    void on_is_running_stateChanged(int arg1);
+
+    void on_next_player_clicked();
+
+    void on_view_range_valueChanged(int value);
+
 private:
     Ui::Widget *ui;
+    QTimer timer_run;
+    QTimer timer_update_map;
 };
 #endif // WIDGET_H

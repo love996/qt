@@ -66,6 +66,9 @@
      <height>22</height>
     </rect>
    </property>
+   <property name="value">
+    <number>20</number>
+   </property>
    <property name="orientation">
     <enum>Qt::Horizontal</enum>
    </property>
@@ -191,7 +194,11 @@
    </property>
    <layout class="QHBoxLayout" name="horizontalLayout_3">
     <item>
-     <widget class="QLineEdit" name="add_player_count"/>
+     <widget class="QLineEdit" name="add_player_count">
+      <property name="text">
+       <string>20</string>
+      </property>
+     </widget>
     </item>
     <item>
      <widget class="QPushButton" name="add_player">
@@ -213,7 +220,11 @@
    </property>
    <layout class="QHBoxLayout" name="horizontalLayout_4">
     <item>
-     <widget class="QLineEdit" name="delete_player_count"/>
+     <widget class="QLineEdit" name="delete_player_count">
+      <property name="text">
+       <string>20</string>
+      </property>
+     </widget>
     </item>
     <item>
      <widget class="QPushButton" name="delete_player">
@@ -269,6 +280,9 @@
     </item>
     <item>
      <widget class="QSlider" name="running_speed">
+      <property name="value">
+       <number>5</number>
+      </property>
       <property name="orientation">
        <enum>Qt::Horizontal</enum>
       </property>
