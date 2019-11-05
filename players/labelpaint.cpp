@@ -3,23 +3,45 @@
 #include <QPainter>
 #include <QDebug>
 #include <QTimer>
+#include <QTime>
 
 
 LabelPaint::LabelPaint(QWidget *parent, Qt::WindowFlags f)
-    :QLabel(parent)
+    :QLabel(parent, f)
 {
-//    timer.connect(&timer, SIGNAL(timeout()),
-//                  this, SLOT(update()));
-//    timer.setInterval(1000);
-//    timer.start();
 }
 
 void LabelPaint::paintEvent(QPaintEvent *event)
 {
-    // QPainter painter(this);
-//    static int i = 0;
-//    qDebug() << "label paint " << ++i;
     QPainter painter(this);
-    player_map.showPalyer(this);
+    player_map.showPalyer(&painter);
+    // player_map
     return QLabel::paintEvent(event);
+}
+
+void LabelPaint::resizeEvent(QResizeEvent *e)
+{
+    player_map.reset(e->size());
+}
+
+void LabelPaint::playerRun(int step)
+{
+    QTime startTime = QTime::currentTime();
+
+
+
+    player_map.playersRun(step);
+    QTime stopTime = QTime::currentTime();
+    int elapsed = startTime.msecsTo(stopTime);
+    qDebug()<<"QTime.currentTime ="<<elapsed<<"ms";
+}
+
+void LabelPaint::addPlayerCount(int count)
+{
+    player_map.addPlayerCount(count);
+}
+
+void LabelPaint::nextPlayer()
+{
+    player_map.nextPlayer();
 }

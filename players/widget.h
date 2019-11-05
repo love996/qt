@@ -3,6 +3,7 @@
 
 #include <QWidget>
 #include <QTimer>
+#include <QResizeEvent>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class Widget; }

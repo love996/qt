@@ -13,6 +13,7 @@ class MainWindow : public QMainWindow
 
 public:
     MainWindow(QWidget *parent = nullptr);
+    virtual void paintEvent(QPaintEvent *e) override;
     ~MainWindow();
 
 private:

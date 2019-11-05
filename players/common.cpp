@@ -1,15 +1,15 @@
 ﻿#include "common.h"
 
 // if p2 is in p1
-bool isInViewRange(const QPoint &p1, const QPoint &p2, int view_range)
+bool isInViewRange(const QPoint &p1, const QPoint &p2, int view_size)
 {
-    int left = p1.x() - view_range;
-    int right = p1.x() + view_range;
-    int up = p1.y() - view_range;
-    int down = p1.y() + view_range;
-    return p2.x() >= left && p2.x() <= right
-        && p2.y() >= up && p2.y() <= down;
+    auto [posl, posr] = getViewRangePos(p1, view_size);
+    return p2.x() >= posl.x() && p2.x() <= posr.x()
+        && p2.y() >= posl.y() && p2.y() <= posr.y();
 }
+
+/*
+
 
 
 
@@ -46,3 +46,4 @@ void moveRight(QPoint &p, int step, int limitRight)
         p.setX(p.x() - limitRight);
     }
 }
+*/

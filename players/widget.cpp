@@ -6,7 +6,8 @@
 
 #include <cstdlib>
 #include <time.h>
-#include <QDebug>
+//#include <QDebug>
+//#include <iostream>
 
 Widget::Widget(QWidget *parent)
     : QWidget(parent)
@@ -14,25 +15,24 @@ Widget::Widget(QWidget *parent)
 {
     ui->setupUi(this);
     srand(time(nullptr));
-    ui->player_map->getMap().reset(QPoint(0, 0), ui->player_map->size());
+
     QObject::connect(&timer_run, &QTimer::timeout,
                      [this](){
-        ui->player_map->getMap().playersRun( ui->running_speed->value());
+        ui->player_map->playerRun( ui->running_speed->value());
     });
     QObject::connect(&timer_update_map, &QTimer::timeout,
                      [this](){
         ui->player_map->update();
     });
-                  // std::bind(&PlayerMap::playersRun, &(ui->player_map->getMap()), ui->running_speed->value()));
-    timer_run.setInterval(10);
-    timer_update_map.setInterval(50);
-    ui->player_map->getMap().setViewRange(ui->view_range->value());
+    ui->player_map->setViewRange(ui->view_range->value());
+    timer_run.setInterval(1000);
+    timer_update_map.setInterval(1000);
+    // std::cout << "开始" << std::endl;
+    qDebug("开始");
 }
 
 void Widget::paintEvent(QPaintEvent *event)
 {
-//    static int i = 0;
-//    qDebug() << "widget paintevent" << ++i;
     return QWidget::paintEvent(event);
 }
 
@@ -44,7 +44,7 @@ Widget::~Widget()
 
 void Widget::on_add_player_clicked()
 {
-    ui->player_map->getMap().addPlayerCount(ui->add_player_count->text().toInt());
+    ui->player_map->addPlayerCount(ui->add_player_count->text().toInt());
     ui->player_map->update();
 }
 
@@ -63,10 +63,10 @@ void Widget::on_is_running_stateChanged(int state)
 
 void Widget::on_next_player_clicked()
 {
-    ui->player_map->getMap().nextPlayer();
+    ui->player_map->nextPlayer();
 }
 
 void Widget::on_view_range_valueChanged(int value)
 {
-    ui->player_map->getMap().setViewRange(value);
+    ui->player_map->setViewRange(value);
 }
