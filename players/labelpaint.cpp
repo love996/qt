@@ -3,7 +3,7 @@
 #include <QPainter>
 #include <QDebug>
 #include <QTimer>
-#include <QTime>
+#include <chrono>
 
 
 LabelPaint::LabelPaint(QWidget *parent, Qt::WindowFlags f)
@@ -26,14 +26,15 @@ void LabelPaint::resizeEvent(QResizeEvent *e)
 
 void LabelPaint::playerRun(int step)
 {
-    QTime startTime = QTime::currentTime();
-
-
+    using namespace std;
+    auto t1 = chrono::steady_clock::now();
 
     player_map.playersRun(step);
-    QTime stopTime = QTime::currentTime();
-    int elapsed = startTime.msecsTo(stopTime);
-    qDebug()<<"QTime.currentTime ="<<elapsed<<"ms";
+    auto t2 = chrono::steady_clock::now();
+
+    auto d = chrono::duration_cast<chrono::microseconds>(t2 - t1);
+
+    qDebug() << "time elpease =" << d.count() << "us";
 }
 
 void LabelPaint::addPlayerCount(int count)

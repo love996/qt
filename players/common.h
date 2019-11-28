@@ -4,9 +4,15 @@
 #include <map>
 #include <iostream>
 #include <vector>
+#include <set>
 
-template <typename K, typename V>
-using Map = std::map<K, V>;
+template <typename K, typename V, typename Comp = std::less<K>>
+using Map = std::map<K, V, Comp>;
+
+
+
+template <typename K, typename Comp = std::less<K>>
+using Set = std::set<K, Comp>;
 
 inline bool operator<(const QPoint &p1, const QPoint &p2)
 {
@@ -31,14 +37,14 @@ inline void move(QPoint &p, int dx, int dy, int limitDown, int limitRight)
     }
 }
 
-template <typename T>
-std::ostream & operator<<(std::ostream &os, std::vector<T> list)
-{
-    for (auto &o : list) {
-        os << o << ' ';
-    }
-    return os;
-}
+//template <typename T>
+//std::ostream & operator<<(std::ostream &os, std::vector<T> list)
+//{
+//    for (auto &o : list) {
+//        os << o << ' ';
+//    }
+//    return os;
+//}
 
 /*
 void moveUp(QPoint &p, int step, int limitDown = 0);

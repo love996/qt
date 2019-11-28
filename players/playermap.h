@@ -10,6 +10,22 @@
 #include "player.h"
 #include "common.h"
 
+struct LessLR
+{
+    bool operator()(const QPoint &p1, const QPoint &p2)
+    {
+        return p1.x() < p2.x() || (p1.x() == p2.x() && p1.y() < p2.y());
+    }
+};
+
+struct LessTD
+{
+    bool operator()(const QPoint &p1, const QPoint &p2)
+    {
+        return p1.y() < p2.y() || (p1.y() == p2.y() && p1.x() < p2.x());
+    }
+};
+
 class PlayerMap
 {
 public:
@@ -34,14 +50,18 @@ private:
     int _curr_player;
     int _view_size;
     int _point_size{5};
-    Map<QPoint, Player&> _pos_player;
+    Map<QPoint, Player&, LessLR> _pos_player;
+    Set<QPoint, LessLR> _pos_l_r;
+    Set<QPoint, LessTD> _pos_t_d;
 private:
     void setPlayerPainter(QPainter *painter);
     void setCurrPlayerPainter(QPainter *painter);
     void setViewRangePainter(QPainter *painter);
+    void setInViewRangePainter(QPainter *painter);
 
 private:
     void calcViewRange();
+    void calcViewRange2();
 };
 
 #endif // PLAYERMAP_H

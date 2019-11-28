@@ -25,8 +25,8 @@ Widget::Widget(QWidget *parent)
         ui->player_map->update();
     });
     ui->player_map->setViewRange(ui->view_range->value());
-    timer_run.setInterval(1000);
-    timer_update_map.setInterval(1000);
+    timer_run.setInterval(50);
+    timer_update_map.setInterval(50);
     // std::cout << "开始" << std::endl;
     qDebug("开始");
 }

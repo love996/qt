@@ -30,7 +30,7 @@ void PlayerMap::playersRun(int step)
         direct = rand() % 2 ? -1 : 1;
         dx = rand() % step * direct;
         dy = rand() % step * direct;
-        _players[i].move(dx, dy, _map_size.width(), _map_size.height());
+        _players[i].move(dx, dy,_map_size.height(),  _map_size.width());
     }
     calcViewRange();
 }
@@ -45,9 +45,9 @@ void PlayerMap::nextPlayer()
 
 void PlayerMap::setPlayerPainter(QPainter *painter)
 {
-    QColor green(100, 150, 100);
-    QPen pen(green);
-    QBrush brush(green, Qt::BrushStyle::SolidPattern);
+    static QColor green(100, 150, 100);
+    static QPen pen(green);
+    static QBrush brush(green, Qt::BrushStyle::SolidPattern);
 
     painter->setPen(pen);
     painter->setBrush(brush);
@@ -55,9 +55,9 @@ void PlayerMap::setPlayerPainter(QPainter *painter)
 
 void PlayerMap::setCurrPlayerPainter(QPainter *painter)
 {
-    QColor red(255, 0, 0);
-    QPen pen(red);
-    QBrush brush(red, Qt::BrushStyle::SolidPattern);
+    static QColor red(255, 0, 0);
+    static QPen pen(red);
+    static QBrush brush(red, Qt::BrushStyle::SolidPattern);
 
     painter->setPen(pen);
     painter->setBrush(brush);
@@ -65,10 +65,21 @@ void PlayerMap::setCurrPlayerPainter(QPainter *painter)
 
 void PlayerMap::setViewRangePainter(QPainter *painter)
 {
-    QColor black(0, 0, 0);
-    QPen pen(black);
+    static QColor black(0, 0, 0);
+    static QPen pen(black);
     pen.setStyle(Qt::PenStyle::DotLine);
-    QBrush brush(black, Qt::BrushStyle::NoBrush);
+    static QBrush brush(black, Qt::BrushStyle::NoBrush);
+
+    painter->setPen(pen);
+    painter->setBrush(brush);
+}
+
+void PlayerMap::setInViewRangePainter(QPainter *painter)
+{
+    static QColor green(0, 200, 0);
+    static QPen pen(green);
+    // pen.setStyle(Qt::PenStyle::DotLine);
+    static QBrush brush(green, Qt::BrushStyle::SolidPattern);
 
     painter->setPen(pen);
     painter->setBrush(brush);
@@ -76,10 +87,6 @@ void PlayerMap::setViewRangePainter(QPainter *painter)
 
 void PlayerMap::calcViewRange()
 {
-
-//    for (auto &player : _players) {
-//        _pos_player.emplace(player.pos(), player);
-//    }
     for (auto &player : _players) {
         //auto pos = player.pos();
 //        QPoint pos1(pos.x() - _view_size / 2, pos.y() - _view_size / 2);
@@ -106,13 +113,46 @@ void PlayerMap::calcViewRange()
     }
 }
 
+void PlayerMap::calcViewRange2()
+{
+    for (auto &player : _players) {
+        _pos_player.emplace(player.pos(), player);
+        _pos_l_r.emplace(player.pos());
+        _pos_t_d.emplace(player.pos());
+    }
+    for (auto &player : _players) {
+        auto pos = player.pos();
+        QPoint poslt(pos.x() - _view_size / 2, pos.y() - _view_size / 2);
+        QPoint posrd(pos.x() + _view_size / 2, pos.y() + _view_size / 2);
+//        QPoint posrt(pos.x() + _view_size / 2, pos.y() - _view_size / 2);
+//        QPoint posld(pos.x() - _view_size / 2, pos.y() + _view_size / 2);
+        // auto [pos1, pos2] = getViewRangePos(pos, _view_size);
+        auto iter_l_r_begin =_pos_l_r.upper_bound(poslt);
+        auto iter_l_r_end = _pos_l_r.lower_bound(posrd);
+        auto iter_t_d_begin =_pos_t_d.upper_bound(poslt);
+        auto iter_t_d_end = _pos_t_d.lower_bound(posrd);
+         // std::cout << player.sendMsg() << std::endl;
+         // qDebug(player.sendMsg());
+        Set<QPoint, LessTD> set1(iter_t_d_begin, iter_t_d_end);
+        for (auto iter = iter_l_r_begin; iter != iter_l_r_end && iter != _pos_l_r.end(); ++iter) {
+            // qDebug() << "iter:" << *iter;
+            if (set1.find(*iter) != set1.end() && _pos_player.find(*iter) != _pos_player.end()) {
+                player.receiveMsg(_pos_player.find(*iter)->second.sendMsg());
+            }
+        }
+    }
+    _pos_player.clear();
+    _pos_l_r.clear();
+    _pos_t_d.clear();
+}
+
 void PlayerMap::showViewRange(QPainter *painter)
 {
     if (painter == nullptr) {
         return;
     }
     for (auto &player : _players) {
-        player.show(painter, _view_size);
+        player.showViewRange(painter, _view_size);
     }
 }
 
@@ -121,12 +161,18 @@ void PlayerMap::showPalyer(QPainter *painter)
     if (painter == nullptr) {
         return;
     }
-    painter->save();
-    setPlayerPainter(painter);
+    // painter->save();
+
+
+//    QPainter painter_in_range;
+//    painter_in_range.begin(painter->device());
+//    setInViewRangePainter(&painter_in_range);
+
+    int painter_i = 0;
 
     for (size_t i = 0; i < _players.size(); ++i) {
         if (i == _curr_player) {
-            painter->save();
+            // painter->save();
 
             setCurrPlayerPainter(painter);
             _players[i].show(painter, _point_size + 1);
@@ -135,11 +181,30 @@ void PlayerMap::showPalyer(QPainter *painter)
             setViewRangePainter(painter);
             _players[i].showViewRange(painter, _view_size);
 
-            painter->restore();
+            // painter->restore();
         }
         else {
-            _players[i].show(painter, _point_size);
+            if (-1 != _curr_player && isInViewRange(_players[_curr_player].pos(), _players[i].pos(), _view_size)) {
+                // painter->save();
+                if (painter_i != 1) {
+
+                    setInViewRangePainter(painter);
+                    painter_i = 1;
+                }
+                _players[i].show(painter, _point_size);
+
+
+                // painter->restore();
+            }
+            else {
+                if ( painter_i != 2 ) {
+                    setPlayerPainter(painter);
+                    painter_i = 2;
+                }
+                _players[i].show(painter, _point_size);
+
+            }
         }
     }
-    painter->restore();
+    // painter->restore();
 }
