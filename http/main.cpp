@@ -10,7 +10,7 @@ int main(int argc, char *argv[])
     int x = 100;
     v.setValue(100);
     qDebug() << v.value<QString>() ;
-    std::fstream fs("a.txt", std::ios::in | std::ios::out);
+    std::fstream fs("a_中文测试.txt", std::ios::in | std::ios::out);
     if (!fs) {
         qDebug() << "打开文件失败";
         return 1;

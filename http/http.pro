@@ -11,16 +11,17 @@ CONFIG -= app_bundle
 # deprecated API in order to know how to port your code away from it.
 DEFINES += QT_DEPRECATED_WARNINGS
 
+filename="a_中文测试.txt"
 
 win32{
-    filepath = $$PWD\a.txt
-    targetpath = $$OUT_PWD\a.txt
+    filepath = $$PWD\$$filename
+    targetpath = $$OUT_PWD\$$filename
     filepath ~= s,/,\\,g
     targetpath ~= s,/,\\,g
     QMAKE_POST_LINK = copy $$filepath $$targetpath
 }
 unix {
-    QMAKE_POST_LINK = cp $$PWD/a.txt $$OUT_PWD/a.txt
+    QMAKE_POST_LINK = cp $$PWD/$$filename $$OUT_PWD/$$filename
 }
 # You can also make your code fail to compile if it uses deprecated APIs.
 # In order to do so, uncomment the following line.
