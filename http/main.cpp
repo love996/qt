@@ -12,9 +12,14 @@ int main(int argc, char *argv[])
     qDebug() << v.value<QString>() ;
     std::fstream fs("a_中文测试.txt", std::ios::in | std::ios::out);
     if (!fs) {
-        qDebug() << "打开文件失败";
-        return 1;
+
+        std::cout << "打开文件失败\n";
+        // return 1;
     }
+    std::cout << "打开文件成功\n";
+    qDebug() << QString::fromLatin1("打开文件成功");
+    qDebug() << QString::fromStdString("打开文件成功");
+    qDebug() << QString::fromUtf8("打开文件成功");
 
     return 0;
 }

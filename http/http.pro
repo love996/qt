@@ -14,11 +14,11 @@ DEFINES += QT_DEPRECATED_WARNINGS
 filename="a_中文测试.txt"
 
 win32{
-    filepath = $$PWD\$$filename
-    targetpath = $$OUT_PWD\$$filename
+    filepath = $$PWD/$$filename
+    targetpath = $$OUT_PWD/$$filename
     filepath ~= s,/,\\,g
     targetpath ~= s,/,\\,g
-    QMAKE_POST_LINK = copy $$filepath $$targetpath
+    # QMAKE_POST_LINK = copy $$filepath $$targetpath
 }
 unix {
     QMAKE_POST_LINK = cp $$PWD/$$filename $$OUT_PWD/$$filename
