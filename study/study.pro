@@ -1,9 +1,10 @@
-QT -= gui
+QT       += core gui
+
+greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
+
+CONFIG += c++11
 
 QT += network
-
-CONFIG += c++11 console
-CONFIG -= app_bundle
 
 # The following define makes your compiler emit warnings if you use
 # any Qt feature that has been marked deprecated (the exact warnings
@@ -11,31 +12,38 @@ CONFIG -= app_bundle
 # deprecated API in order to know how to port your code away from it.
 DEFINES += QT_DEPRECATED_WARNINGS
 
-filename="a_中文测试.txt"
-
-win32{
-    filepath = $$PWD/$$filename
-    targetpath = $$OUT_PWD/$$filename
-    filepath ~= s,/,\\,g
-    targetpath ~= s,/,\\,g
-    # QMAKE_POST_LINK = copy $$filepath $$targetpath
-}
-unix {
-    QMAKE_POST_LINK = cp $$PWD/$$filename $$OUT_PWD/$$filename
-}
 # You can also make your code fail to compile if it uses deprecated APIs.
 # In order to do so, uncomment the following line.
 # You can also select to disable deprecated APIs only up to a certain version of Qt.
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
+win32 {
+    LIBS += -L-L$$(THIRD_PARTY)\lib
+    # LIBS += -llibeay32 -lssleay32
+}
+
 SOURCES += \
-        httpserver.cpp \
-        main.cpp
+    httpclient.cpp \
+    main.cpp \
+    myjson.cpp \
+    mynetmanager.cpp \
+    mynetwork.cpp \
+    testjson.cpp \
+    widget.cpp
+
+HEADERS += \
+    func.h \
+    httpclient.h \
+    myjson.h \
+    mynetmanager.h \
+    mynetwork.h \
+    testjson.h \
+    widget.h
+
+FORMS += \
+    widget.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
-
-HEADERS += \
-    httpserver.h
