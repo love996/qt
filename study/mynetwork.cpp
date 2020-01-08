@@ -3,6 +3,7 @@
 #include <QNetworkReply>
 #include <iostream>
 #include <fstream>
+#include <thread>
 #include <QFile>
 using namespace std;
 
@@ -46,35 +47,44 @@ void MyNetWork::httpGet()
 //        out.flush();
 //    });
     static QNetworkReply *reply = netmanager->get(*request);
-    QObject::connect(netmanager, &QNetworkAccessManager::finished,
-                     [](QNetworkReply *reply){
-        qDebug() << "finished";
-        qDebug() << reply->error();
+//    QObject::connect(netmanager, &QNetworkAccessManager::finished,
+//                     [](QNetworkReply *reply){
+//        qDebug() << "finished";
+//        qDebug() << reply->error();
 
+//        auto data = reply->readAll();
+//        std::cout << data.size();
+//        QFile file("out.html");
+//        file.open(QFile::WriteOnly);
+//        file.write(data);
+//        file.close();
+
+//        qDebug() << reply->rawHeaderPairs();
+////        for (auto ch : data) {
+////            qDebug() << QString::fromLocal8Bit(QString(ch).toStdString().data());
+////        }
+////        for (auto iter = data.begin(); iter != data.end(); ++iter){
+////            qDebug() << *iter;
+////        }
+//        qDebug() << strlen(data);
+//    });
+//    QObject::connect(reply, &QNetworkReply::downloadProgress,
+//                     [&](qint64 byteSend, qint64 byteTotal){
+//        qDebug() << byteSend << "/" << byteTotal;
+//    });
+    std::thread([&]{
+
+        while (!reply->isFinished()) {
+            // qDebug() << "not finished";
+            std::this_thread::yield();
+        }
+        qDebug() << reply->error();
         auto data = reply->readAll();
-        std::cout << data.size();
+        qDebug() << reply->rawHeaderList();
+        qDebug() << data.length();
         QFile file("out.html");
         file.open(QFile::WriteOnly);
         file.write(data);
         file.close();
-
-        qDebug() << reply->rawHeaderPairs();
-//        for (auto ch : data) {
-//            qDebug() << QString::fromLocal8Bit(QString(ch).toStdString().data());
-//        }
-//        for (auto iter = data.begin(); iter != data.end(); ++iter){
-//            qDebug() << *iter;
-//        }
-        qDebug() << strlen(data);
-    });
-    QObject::connect(reply, &QNetworkReply::downloadProgress,
-                     [&](qint64 byteSend, qint64 byteTotal){
-        qDebug() << byteSend << "/" << byteTotal;
-    });
-
-    qDebug() << reply->error();
-    auto data = reply->readAll();
-    qDebug() << reply->rawHeaderList();
-    qDebug() << data.length();
-
+    }).detach();
 }
