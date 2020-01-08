@@ -23,6 +23,7 @@ win32 {
 }
 
 SOURCES += \
+    httpclient.cpp \
     main.cpp \
     myjson.cpp \
     mynetmanager.cpp \
@@ -32,6 +33,7 @@ SOURCES += \
 
 HEADERS += \
     func.h \
+    httpclient.h \
     myjson.h \
     mynetmanager.h \
     mynetwork.h \

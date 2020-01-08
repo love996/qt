@@ -19,10 +19,9 @@ void MyNetWork::httpGet()
     // QUrl url("http://58.216.158.92:9101/");
     QUrl url("http://www.baidu.com");
     static QNetworkAccessManager *netmanager = new QNetworkAccessManager;
-    static QNetworkRequest *request = new QNetworkRequest(url);
-    // request->setRawHeader("Content-Type", "application/json");
+    netmanager->connectToHost("http://www.baidu.com");
+    static QNetworkRequest *request = new QNetworkRequest;
     request->setRawHeader("Accept", "*/*");
-    // request->setRawHeader("Accept-Encoding", "gzip, deflate");
     request->setRawHeader("Connection", "keep-alive");
 
     // TLS
