@@ -2,7 +2,7 @@ QT       += core gui
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
-CONFIG += c++11
+CONFIG += c++14
 
 QT += network
 
@@ -23,20 +23,16 @@ win32 {
 }
 
 SOURCES += \
+    easyjson.cpp \
     httpclient.cpp \
     main.cpp \
-    myjson.cpp \
-    mynetmanager.cpp \
-    mynetwork.cpp \
     testjson.cpp \
     widget.cpp
 
 HEADERS += \
+    easyjson.h \
     func.h \
     httpclient.h \
-    myjson.h \
-    mynetmanager.h \
-    mynetwork.h \
     testjson.h \
     widget.h
 
