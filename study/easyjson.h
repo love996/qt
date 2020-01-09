@@ -56,7 +56,6 @@ public:
         return EasyJson(this, key, _jsonObj[key]);
     }
     EasyJson operator[](const QString &key) const {
-        qDebug() << key << "const";
         return EasyJson(nullptr, key, _jsonObj[key]);
     }
 

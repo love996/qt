@@ -23,6 +23,13 @@ void HttpClient::post(const QString &path, const QByteArray &data, HttpCallBack 
     registerCallback(reply, cb);
 }
 
+void HttpClient::download(const QUrl &url, HttpCallBack cb)
+{
+    auto req = getRequest(url);
+    auto reply = _client.get(req);
+    registerCallback(reply, cb);
+}
+
 QNetworkRequest HttpClient::getRequest(const QString &path)
 {
     QUrl url(QString("%1/%2").arg(_host, path));
@@ -32,27 +39,87 @@ QNetworkRequest HttpClient::getRequest(const QString &path)
     return request;
 }
 
+QNetworkRequest HttpClient::getRequest(const QUrl &url)
+{
+    QNetworkRequest request(url);
+    request.setRawHeader("Accept", "*/*");
+    request.setRawHeader("Connection", "keep-alive");
+    return request;
+}
+
 void HttpClient::finished(QNetworkReply *reply)
 {
-    auto resp = make_shared<HttpResponse>();
-    resp->headerList = reply->rawHeaderPairs();
-    resp->body = reply->readAll();
-    _replyCB[reply](resp);
+    // auto resp = make_shared<HttpResponse>();
+    _replyInfoMap[reply]->httpResponse->headerList = reply->rawHeaderPairs();
+    _replyInfoMap[reply]->httpResponse->body.append(reply->readAll());
+    _replyInfoMap[reply]->httpResponse->downloadFile = _replyInfoMap[reply]->downloadFile.fileName();
+    qDebug() << "finished read size:" << _replyInfoMap[reply]->httpResponse->body.size();
+
+    auto resp = _replyInfoMap[reply]->httpResponse;
+    auto cb = _replyInfoMap[reply]->cb;
     clearReply(reply);
+    cb(resp);
 }
 
 void HttpClient::clearReply(QNetworkReply *reply)
 {
-    QObject::disconnect(_replySigMap[reply]);
-    _replySigMap.remove(reply);
+    for (auto &connObj : _replyInfoMap[reply]->connObjs) {
+        QObject::disconnect(connObj);
+    }
+    _replyInfoMap.remove(reply);
     reply->deleteLater();
-    _replyCB.remove(reply);
 }
 
 void HttpClient::registerCallback(QNetworkReply *reply, HttpCallBack cb)
 {
+    // qDebug() << "headers:" << reply->rawHeaderPairs();
     auto sig_obj = QObject::connect(reply, &QNetworkReply::finished,
                                     std::bind(&HttpClient::finished, this, reply));
-    _replySigMap.insert(reply, std::move(sig_obj));
-    _replyCB.insert(reply, cb);
+    _replyInfoMap[reply] = make_shared<ReplyInfo>();
+    _replyInfoMap[reply]->connObjs.push_back(std::move(sig_obj));
+    sig_obj = QObject::connect(reply, &QNetworkReply::readyRead,
+                               std::bind(&HttpClient::readyRead, this, reply));
+    _replyInfoMap[reply]->connObjs.push_back(std::move(sig_obj));
+    _replyInfoMap[reply]->cb = cb;
+    _replyInfoMap[reply]->httpResponse = make_shared<HttpResponse>();
+}
+
+QString getFilename(QString text)
+{
+    QString findStr = "filename=";
+    int index = text.indexOf(findStr);
+    return text.mid(index + findStr.size());
+}
+
+void HttpClient::readyRead(QNetworkReply *reply)
+{
+    if (_replyInfoMap[reply]->httpResponse->headerList.size() == 0) {
+        _replyInfoMap[reply]->httpResponse->headerList = reply->rawHeaderPairs();
+        qDebug() << reply->rawHeader("Content-Type");
+        if (reply->rawHeader("Content-Type") == QString("application/octet-stream")) {
+            initDownloadFile(reply);
+        }
+        qDebug() << reply->rawHeaderPairs();
+    }
+    if (_replyInfoMap[reply]->downloadFile.isOpen()) {
+        _replyInfoMap[reply]->downloadFile.write(reply->readAll());
+    }
+    else {
+        _replyInfoMap[reply]->httpResponse->body.append(reply->readAll());
+    }
+}
+
+void HttpClient::readyWriteFile(QNetworkReply *reply)
+{
+
+}
+
+void HttpClient::initDownloadFile(QNetworkReply *reply)
+{
+    auto filename = getFilename(reply->rawHeader("Content-Disposition"));
+    _replyInfoMap[reply]->downloadFile.setFileName(filename);
+    _replyInfoMap[reply]->downloadFile.setPermissions(QFile::Permission::ExeUser |
+                                                     QFile::Permission::ExeOwner |
+                                                     QFile::Permission::ExeGroup);
+    _replyInfoMap[reply]->downloadFile.open(QFile::WriteOnly | QFile::Truncate);
 }
