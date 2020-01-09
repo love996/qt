@@ -19,6 +19,17 @@ int main(int argc, char *argv[])
     client.get("/", [](std::shared_ptr<HttpResponse> resp){
         qDebug() << resp->headerList;
         qDebug() << resp->body.size();
+        qDebug() << "11111";
+        QFile file("out.html");
+        file.open(QFile::WriteOnly);
+        file.write(resp->body);
+        file.close();
+        qDebug() << resp->body;
+    });
+    client.get("/", [](std::shared_ptr<HttpResponse> resp){
+        qDebug() << resp->headerList;
+        qDebug() << resp->body.size();
+        qDebug() << "22222";
         QFile file("out.html");
         file.open(QFile::WriteOnly);
         file.write(resp->body);
