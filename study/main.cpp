@@ -5,6 +5,7 @@
 #include <QFile>
 
 #include <QApplication>
+#include "testslot.h"
 
 int main(int argc, char *argv[])
 {
@@ -18,7 +19,7 @@ int main(int argc, char *argv[])
         file.write(resp->body);
         file.close();
     });
-    client.download(QUrl("http://file02.16sucai.com/d/file/2014/0704/e53c868ee9e8e7b28c424b56afe2066d.jpg"), [](std::shared_ptr<HttpResponse> resp){
+    client.download(QUrl("https://middle-oss.oss-cn-shenzhen.aliyuncs.com/ota/20200109/0lihuE_32503d8a137e49c6b3605630de9fb0fb.jpg"), [](std::shared_ptr<HttpResponse> resp){
         qDebug() << resp->headerList;
         QFile file("image.jpg");
         file.open(QFile::WriteOnly);
@@ -40,6 +41,7 @@ int main(int argc, char *argv[])
 //        file.close();
 //        qDebug() << resp->body;
 //    });
+    testSlotFunc();
     w.show();
     return a.exec();
 }

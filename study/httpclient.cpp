@@ -41,9 +41,17 @@ QNetworkRequest HttpClient::getRequest(const QString &path)
 
 QNetworkRequest HttpClient::getRequest(const QUrl &url)
 {
-    QNetworkRequest request(url);
+    QNetworkRequest request;
     request.setRawHeader("Accept", "*/*");
     request.setRawHeader("Connection", "keep-alive");
+    if (url.url().indexOf("https") != -1) {
+        // QSslConfiguration config;
+        QSslConfiguration conf = request.sslConfiguration();
+        conf.setPeerVerifyMode(QSslSocket::VerifyNone);
+        conf.setProtocol(QSsl::TlsV1SslV3);
+        request.setSslConfiguration(conf);
+    }
+    request.setUrl(url);
     return request;
 }
 
