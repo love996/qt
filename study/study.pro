@@ -21,6 +21,9 @@ win32 {
     LIBS += -L-L$$(THIRD_PARTY)\lib
     LIBS += -llibeay32 -lssleay32
 }
+unix {
+    LIBS += -lssl -lcrypto -lcurl -lpthread
+}
 
 SOURCES += \
     easyjson.cpp \

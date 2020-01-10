@@ -11,6 +11,8 @@
 
 int main(int argc, char *argv[])
 {
+    qDebug() << QSslSocket::sslLibraryBuildVersionString() ;
+    qDebug() << QSslSocket::supportsSsl();
     QApplication a(argc, argv);
     Widget w;
     testJson();
