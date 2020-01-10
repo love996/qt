@@ -24,7 +24,7 @@ class HttpClient : public QObject
 {
     Q_OBJECT
 public:
-    HttpClient(const QString &host = "", QObject *parent = nullptr);
+    HttpClient(const QString &host = "");
     void get(const QString &path, HttpCallBack cb);
     void post(const QString &path, const QByteArray &data, HttpCallBack cb);
     void download(const QUrl &url, HttpCallBack cb);
@@ -40,15 +40,14 @@ private:
     };
     QMap<QNetworkReply*, std::shared_ptr<ReplyInfo>> _replyInfoMap;
 private:
-    QNetworkRequest getRequest(const QString &path);
+    // QNetworkRequest getRequest(const QString &path);
     QNetworkRequest getRequest(const QUrl &url);
 private:
     void finished(QNetworkReply *reply);
     void clearReply(QNetworkReply *reply);
     void registerCallback(QNetworkReply *reply, HttpCallBack cb);
     void readyRead(QNetworkReply *reply);
-    void readyWriteFile(QNetworkReply *reply);
-    void initDownloadFile(QNetworkReply *reply);
+    void initDownloadFile(QNetworkReply *reply, QString filename);
 };
 
 #endif // HTTPCLIENT_H
