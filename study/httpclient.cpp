@@ -3,8 +3,9 @@
 #include <functional>
 using namespace std;
 
-HttpClient::HttpClient(const QString & host)
-    :_host(host)
+HttpClient::HttpClient(const QString & host, QObject *parent)
+    :QObject(parent),
+    _host(host)
 {
 
 }

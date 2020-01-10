@@ -3,6 +3,7 @@
 #include <QVariant>
 #include <QDebug>
 #include <fstream>
+#include <filesystem>
 
 int main(int argc, char *argv[])
 {
@@ -17,7 +18,7 @@ int main(int argc, char *argv[])
         // return 1;
     }
     std::cout << "打开文件成功\n";
-    qDebug() << QString::fromLatin1("打开文件成功");
+    // qDebug() << QString::fromLatin1("打开文件成功");
     qDebug() << QString::fromStdString("打开文件成功");
     qDebug() << QString::fromUtf8("打开文件成功");
 

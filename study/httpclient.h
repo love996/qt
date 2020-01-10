@@ -20,10 +20,11 @@ struct HttpResponse
 
 using HttpCallBack = std::function<void (std::shared_ptr<HttpResponse>)>;
 
-class HttpClient
+class HttpClient : public QObject
 {
+    Q_OBJECT
 public:
-    HttpClient(const QString &host);
+    HttpClient(const QString &host = "", QObject *parent = nullptr);
     void get(const QString &path, HttpCallBack cb);
     void post(const QString &path, const QByteArray &data, HttpCallBack cb);
     void download(const QUrl &url, HttpCallBack cb);
