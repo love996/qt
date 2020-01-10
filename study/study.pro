@@ -19,7 +19,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 win32 {
     LIBS += -L-L$$(THIRD_PARTY)\lib
-    # LIBS += -llibeay32 -lssleay32
+    LIBS += -llibeay32 -lssleay32
 }
 
 SOURCES += \
@@ -27,6 +27,7 @@ SOURCES += \
     httpclient.cpp \
     main.cpp \
     testjson.cpp \
+    testslot.cpp \
     widget.cpp
 
 HEADERS += \
@@ -34,6 +35,7 @@ HEADERS += \
     func.h \
     httpclient.h \
     testjson.h \
+    testslot.h \
     widget.h
 
 FORMS += \
