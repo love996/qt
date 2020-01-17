@@ -1,20 +1,23 @@
 #ifndef TCPSERVER_H
 #define TCPSERVER_H
 
+#include <set>
+#include <memory>
+
 #include <QObject>
 #include <QTcpServer>
 
-#include "tcpconnection.h"
-
-class TcpServer// : public QObject
+class TcpServer //: public QObject
 {
     //Q_OBJECT
 public:
+    using ConnectedCallback = void (*)(std::shared_ptr<QTcpSocket>);
 public:
-    explicit TcpServer(const QHostAddress &addr, quint16 port, QObject *parent = nullptr);
+    TcpServer(const QHostAddress &addr, quint16 port);
+    TcpServer(const QString &addr, quint16 port);
     ~TcpServer();
-
-    void connected();
+    void registerConnectedCallback(ConnectedCallback cb);
+    void error(QAbstractSocket::SocketError e);
 
 //signals:
 
@@ -22,8 +25,13 @@ public:
 
 private:
     QTcpServer _server;
+    ConnectedCallback _cb;
+    std::set<std::shared_ptr<QTcpSocket>> _delegateConnections;
+private:
+    void initSlots();
+    void newConnection();
 
-    void initSlogs();
+protected:
 };
 
 #endif // TCPSERVER_H

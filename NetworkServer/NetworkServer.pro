@@ -17,7 +17,6 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
         main.cpp \
-        tcpconnection.cpp \
         tcpserver.cpp
 
 # Default rules for deployment.
@@ -26,5 +25,4 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
 HEADERS += \
-    tcpconnection.h \
     tcpserver.h

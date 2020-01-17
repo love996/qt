@@ -1,10 +1,9 @@
 #include <QCoreApplication>
-#include "tcpserver.h"
+#include "tcpconnection.h"
 
 int main(int argc, char *argv[])
 {
     QCoreApplication a(argc, argv);
-    TcpServer server(QHostAddress::Any, 12345);
-
+    TcpConnection connection("127.0.0.1", 12345);
     return a.exec();
 }

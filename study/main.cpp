@@ -8,9 +8,11 @@
 #include <QApplication>
 #include <QThread>
 #include "testslot.h"
+#include "testzip.h"
 
 int main(int argc, char *argv[])
 {
+    testunzip();
     testDataStream();
     return 0;
     QApplication a(argc, argv);
