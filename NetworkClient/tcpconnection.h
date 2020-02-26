@@ -7,7 +7,7 @@
 #include <QTcpSocket>
 
 
-class TcpConnection// : public QObject
+class TcpConnectionBase//  : public QObject
 {
     //Q_OBJECT
 public:
@@ -15,14 +15,17 @@ public:
     using ReadCallback = void (*)(int length);
 public:
     // TcpConnection();
-    TcpConnection(std::shared_ptr<QTcpSocket> socketPtr/*QObject *parent = nullptr*/);
-    TcpConnection(const QHostAddress &addr, quint16 port);
-    TcpConnection(const QString &addr, quint16 port);
+    TcpConnectionBase(std::shared_ptr<QTcpSocket> socketPtr/*QObject *parent = nullptr*/);
+    TcpConnectionBase(const QHostAddress &addr, quint16 port);
+    TcpConnectionBase(const QString &addr, quint16 port);
+    virtual ~TcpConnectionBase(){}
     void connect(const QHostAddress &addr, quint16 port);
     void setSocket(std::shared_ptr<QTcpSocket> socketPtr);
     void registerReadyReadCallback(ReadyReadCallback cb);
     // void finishedCallback(QByteArray &buffer, ReadCallback cb);
     // signals:
+protected:
+    virtual void readyRead(std::shared_ptr<QTcpSocket> socketPtr) = 0;
 
 private:
     std::shared_ptr<QTcpSocket> _socketPtr;
@@ -35,6 +38,13 @@ private:
     void clear();
 
     void socketError(QAbstractSocket::SocketError);
+};
+
+class TcpConnection : public TcpConnectionBase
+{
+    using TcpConnectionBase::TcpConnectionBase;
+public:
+    virtual void readyRead(std::shared_ptr<QTcpSocket> socketPtr) override;
 };
 
 #endif // TCPCONNECTION_H

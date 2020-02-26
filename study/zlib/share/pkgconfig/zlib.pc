@@ -1,0 +1,13 @@
+prefix=D:/third_party/zlib
+exec_prefix=D:/third_party/zlib
+libdir=D:/third_party/zlib/lib
+sharedlibdir=D:/third_party/zlib/lib
+includedir=D:/third_party/zlib/include
+
+Name: zlib
+Description: zlib compression library
+Version: 1.2.11
+
+Requires:
+Libs: -L${libdir} -L${sharedlibdir} -lz
+Cflags: -I${includedir}

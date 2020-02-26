@@ -18,10 +18,11 @@ DEFINES += QT_DEPRECATED_WARNINGS
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 win32 {
-    INCLUDEPATH += D:\code\MID_RV\cpp\tcpclient\third_party\quazip\include D:\code\MID_RV\cpp\tcpclient\third_party\zlib\include
-    LIBS += -LC:\Qt\Qt5.12.6\Tools\mingw730_64\opt\bin -LD:\code\MID_RV\cpp\tcpclient\third_party\quazip\lib
-    LIBS += -L$$(THIRD_PARTY)\lib
-    LIBS += -llibeay32 -lssleay32 -llibssl -llibcrypto -lquazip
+    INCLUDEPATH += $$PWD\quazip\include $$PWD\zlib\include
+    LIBS += -L$$PWD\quazip\lib
+    LIBS += -lquazip
+    # LIBS += -LC:\Qt\Qt5.12.6\Tools\mingw730_64\opt\bin -L$$PWD\quazip\lib
+    # LIBS += -llibeay32 -lssleay32 -llibssl -llibcrypto -lquazip
 
 }
 unix {
@@ -29,6 +30,7 @@ unix {
 }
 
 SOURCES += \
+    dialog.cpp \
     easyjson.cpp \
     func.cpp \
     httpclient.cpp \
@@ -39,6 +41,7 @@ SOURCES += \
     widget.cpp
 
 HEADERS += \
+    dialog.h \
     easyjson.h \
     func.h \
     httpclient.h \
@@ -48,6 +51,7 @@ HEADERS += \
     widget.h
 
 FORMS += \
+    dialog.ui \
     widget.ui
 
 # Default rules for deployment.

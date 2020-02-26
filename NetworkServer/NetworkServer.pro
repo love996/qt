@@ -1,7 +1,7 @@
 QT -= gui
 
 QT += network
-CONFIG += c++11 console
+CONFIG += c++1z console
 CONFIG -= app_bundle
 
 # The following define makes your compiler emit warnings if you use
@@ -17,7 +17,10 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
         main.cpp \
-        tcpserver.cpp
+        tcpserver.cpp \
+        udpbase.cpp \
+        udpclient.cpp \
+        udpserver.cpp
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
@@ -25,4 +28,7 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
 HEADERS += \
-    tcpserver.h
+    tcpserver.h \
+    udpbase.h \
+    udpclient.h \
+    udpserver.h

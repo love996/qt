@@ -4,11 +4,13 @@ using namespace std;
 #include <QTcpSocket>
 #include <QTimer>
 #include <QThread>
-
+/*
 TcpServer::TcpServer(const QHostAddress &addr, quint16 port)
     :_cb(nullptr)
 {
     _server.listen(addr, port);
+    _timerSend.setInterval(1000);
+    _timerSend.start();
     qDebug() << "is listening:" << _server.isListening();
     // 处理连接
     initSlots();
@@ -42,15 +44,9 @@ void TcpServer::newConnection()
         _cb(connPtr);
     }
     else {
-        static QTimer timer;
-        timer.setInterval(1000);
-        QObject::connect(&timer, &QTimer::timeout, [connPtr]{
+        QObject::connect(&_timerSend, &QTimer::timeout, [connPtr]{
                 connPtr->write("hello");
-                QThread::sleep(1);
         });
-        timer.start();
-
-
         _delegateConnections.insert(connPtr);
     }
     qDebug() << "new connection";
@@ -64,5 +60,5 @@ void TcpServer::initSlots()
     });
     qDebug() << "init slots";
 }
-
+*/
 
