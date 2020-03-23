@@ -1,10 +1,7 @@
-QT       += core gui
-
-greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
-
-CONFIG += c++14
-
+QT -= gui
 QT += network
+CONFIG += c++11 console
+CONFIG -= app_bundle
 
 # The following define makes your compiler emit warnings if you use
 # any Qt feature that has been marked deprecated (the exact warnings
@@ -17,47 +14,16 @@ DEFINES += QT_DEPRECATED_WARNINGS
 # You can also select to disable deprecated APIs only up to a certain version of Qt.
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
-win32 {
-    INCLUDEPATH += $$PWD\quazip\include $$PWD\zlib\include
-    LIBS += -L$$PWD\quazip\lib
-    LIBS += -lquazip
-    # LIBS += -LC:\Qt\Qt5.12.6\Tools\mingw730_64\opt\bin -L$$PWD\quazip\lib
-    # LIBS += -llibeay32 -lssleay32 -llibssl -llibcrypto -lquazip
-
-}
-unix {
-    LIBS += -lssl -lcrypto -lcurl -lpthread
-}
-
 SOURCES += \
-    dialog.cpp \
-    easyjson.cpp \
-    func.cpp \
-    httpclient.cpp \
-    main.cpp \
-    pubfunc.cpp \
-    testjson.cpp \
-    testprocess.cpp \
-    testslot.cpp \
-    testzip.cpp \
-    widget.cpp
-
-HEADERS += \
-    dialog.h \
-    easyjson.h \
-    httpclient.h \
-    pubfunc.h \
-    testjson.h \
-    testprocess.h \
-    testslot.h \
-    testzip.h \
-    widget.h
-
-FORMS += \
-    dialog.ui \
-    widget.ui
+        main.cpp \
+        tcpconnection.cpp \
+        threadconnection.cpp
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
+
+HEADERS += \
+    tcpconnection.h \
+    threadconnection.h
