@@ -9,9 +9,10 @@ void TestProcess()
         process.setProgram("bash");
         QStringList args{"-c", "cd \"/home/shenlan\" && bash ./run_qt.sh"};
         // QProcess::execute("bash");
+        process.setProgram("bash");
         process.setArguments(args);
-        // process.open(QProcess::ReadWrite);
-        process.startDetached();
+        process.start();
+        process.waitForStarted();
         process.waitForFinished(-1);
     });
     th.detach();

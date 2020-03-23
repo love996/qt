@@ -10,7 +10,7 @@
 #include "testslot.h"
 #include <QDir>
 #include <testprocess.h>
-#include "testzip.h"
+//#include "testzip.h"
 
 int main(int argc, char *argv[])
 {
