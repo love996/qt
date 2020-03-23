@@ -2,7 +2,7 @@ QT       += core gui
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
-CONFIG += c++17
+CONFIG += c++14
 
 QT += network
 
@@ -29,15 +29,18 @@ SOURCES += \
     easyjson.cpp \
     httpclient.cpp \
     main.cpp \
+    pubfunc.cpp \
     testjson.cpp \
+    testprocess.cpp \
     testslot.cpp \
     widget.cpp
 
 HEADERS += \
     easyjson.h \
-    func.h \
     httpclient.h \
+    pubfunc.h \
     testjson.h \
+    testprocess.h \
     testslot.h \
     widget.h
 
