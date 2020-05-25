@@ -35,7 +35,9 @@ SOURCES += \
     func.cpp \
     httpclient.cpp \
     main.cpp \
+    pubfunc.cpp \
     testjson.cpp \
+    testprocess.cpp \
     testslot.cpp \
     testzip.cpp \
     widget.cpp
@@ -43,9 +45,10 @@ SOURCES += \
 HEADERS += \
     dialog.h \
     easyjson.h \
-    func.h \
     httpclient.h \
+    pubfunc.h \
     testjson.h \
+    testprocess.h \
     testslot.h \
     testzip.h \
     widget.h

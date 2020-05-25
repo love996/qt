@@ -115,6 +115,7 @@ void HttpClient::readyRead(QNetworkReply *reply)
         }
         qDebug() << reply->rawHeaderPairs();
     }
+    qDebug() << reply->size();
     if (_replyInfoMap[reply]->downloadFile.isOpen()) {
         _replyInfoMap[reply]->downloadFile.write(reply->readAll());
     }
