@@ -1,4 +1,4 @@
-﻿#ifndef HTTPCLIENT_H
+#ifndef HTTPCLIENT_H
 #define HTTPCLIENT_H
 
 #include <memory>
@@ -27,6 +27,7 @@ public:
     HttpClient(const QString &host = "");
     void get(const QString &path, HttpCallBack cb);
     void post(const QString &path, const QByteArray &data, HttpCallBack cb);
+    void put(const QString &path, const QByteArray &data, HttpCallBack cb);
     void download(const QUrl &url, HttpCallBack cb);
 private:
     QNetworkAccessManager _client;

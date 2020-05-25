@@ -3,7 +3,7 @@
 
 #include <QWidget>
 #include <QTimer>
-#include "ui_dialog.h"
+#include "dialog.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class Widget; }
@@ -24,8 +24,7 @@ private slots:
 
 private:
     Ui::Widget *ui;
-    Ui_Dialog *dialog;
-    QDialog _uiDialog;
+    Dialog _dialog;
     QTimer _timerPressed;
 };
 #endif // WIDGET_H

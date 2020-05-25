@@ -1,4 +1,4 @@
-﻿#include "httpclient.h"
+#include "httpclient.h"
 #include <thread>
 #include <functional>
 using namespace std;
@@ -20,6 +20,13 @@ void HttpClient::post(const QString &path, const QByteArray &data, HttpCallBack 
 {
     auto req = getRequest(path);
     auto reply = _client.post(req, data);
+    registerCallback(reply, cb);
+}
+
+void HttpClient::put(const QString &path, const QByteArray &data, HttpCallBack cb)
+{
+    auto req = getRequest(path);
+    auto reply = _client.put(req, data);
     registerCallback(reply, cb);
 }
 
