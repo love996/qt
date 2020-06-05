@@ -17,10 +17,12 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
     main.cpp \
-    mousedialog.cpp
+    mousedialog.cpp \
+    util.cpp
 
 HEADERS += \
-    mousedialog.h
+    mousedialog.h \
+    util.h
 
 FORMS += \
     mousedialog.ui

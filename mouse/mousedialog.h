@@ -18,9 +18,14 @@ public:
     ~MouseDialog();
     void mouseMoveEvent(QMouseEvent *event) override;
 
+private slots:
+    void on_click_clicked();
+
+    void on_pushButton_clicked();
+
 private:
     Ui::MouseDialog *ui;
-    QPoint _start_menu{20, 20};
+    QPoint _start_menu{20, 1060};
     QScreen *_screen_ptr;
     QTimer _timer_mouse;
 private:
