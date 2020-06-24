@@ -46,7 +46,7 @@ void CameraImpl::open(const std::string &name)
 
 void CameraImpl::expose(int e)
 {
-    _capture_ptr
+    // _capture_ptr
 }
 
 void CameraImpl::fps(int f)

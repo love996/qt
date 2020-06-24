@@ -5,6 +5,7 @@
 #include <QCamera>
 #include <QCameraImageCapture>
 #include <QTimer>
+#include <memory>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class Camera; }

@@ -1,6 +1,6 @@
 QT       += core gui
-QT += mutimedia
-QT += mutimediawidgets
+QT += multimedia
+QT += multimediawidgets
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -33,10 +33,10 @@ HEADERS += \
 FORMS += \
     camera.ui
 
-INCLUDEPATH += D:\\third_party\\opencv4_3_0\\install\\include
-LIBS += -LD:\\third_party\\opencv4_3_0\\install\x64\\mingw\\bin \
-        -lopencv_core430 -lopencv_videoio430 -lopencv_imgcodecs430 \
-        -lopencv_highgui430
+#INCLUDEPATH += D:\\third_party\\opencv4_3_0\\install\\include
+#LIBS += -LD:\\third_party\\opencv4_3_0\\install\x64\\mingw\\bin \
+#        -lopencv_core430 -lopencv_videoio430 -lopencv_imgcodecs430 \
+#        -lopencv_highgui430
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin

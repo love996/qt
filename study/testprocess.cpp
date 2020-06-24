@@ -11,9 +11,11 @@ void TestProcess()
         // QProcess::execute("bash");
         process.setProgram("bash");
         process.setArguments(args);
-        process.start();
-        process.waitForStarted();
-        process.waitForFinished(-1);
+        process.setStandardErrorFile("stderr.txt");
+        process.setStandardOutputFile("stdout.txt");
+        qint64 pid;
+        process.startDetached();
+        QProcess::wa
     });
     th.detach();
 
