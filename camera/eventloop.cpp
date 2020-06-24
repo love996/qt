@@ -1,18 +1,22 @@
 #include "eventloop.h"
 #include <QThread>
 #include <QApplication>
+#include <QDebug>
+#include "alwaysrun.h"
 
 static QThread g_thread;
 
-void init(int argc = 0, char *argv[] = nullptr)
+
+
+void init()
 {
-    QApplication app(argc, argv);
-    app.moveToThread(&g_thread);
-    // app.exec();
-    g_thread.start();
+    static AlwaysRun run(&event_thread());
+//    run.moveToThread(&event_thread());
+//    event_thread().start();
 }
 
 QThread &event_thread()
 {
+    qDebug() << "thread status is running:" << g_thread.isRunning();
     return g_thread;
 }
