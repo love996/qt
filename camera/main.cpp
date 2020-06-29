@@ -1,13 +1,23 @@
-#include "camera.h"
+#include "camera_impl.h"
 
 #include <QApplication>
 #include <QMessageBox>
-#include <opencv2/opencv.hpp>
+#include <QDebug>
+#include "eventloop.h"
+#include <QThread>
+// #include <opencv2/opencv.hpp>
 
 int main(int argc, char *argv[])
 {
+
     QApplication a(argc, argv);
-    Camera w;
+    qDebug() << "main thread:" << QThread::currentThreadId();
+    init();
+    // CameraImpl camera;
+    for (auto camera_info : CameraImpl::cameras()) {
+        qDebug() << camera_info.name.c_str()
+                 << camera_info.description.c_str();
+    }
 //    QMessageBox msg;
 //    msg.setText("hello text");
 //    msg.open();
@@ -22,6 +32,6 @@ int main(int argc, char *argv[])
 //            break;
 //        }
 //    }
-    w.show();
+    // w.show();
     return a.exec();
 }

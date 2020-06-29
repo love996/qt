@@ -1,11 +1,8 @@
 QT       += core gui
-QT += multimedia
-QT += multimediawidgets
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
-QMAKE_CXX = ccache g++
 
-CONFIG += c++14
+CONFIG += c++11
 
 # The following define makes your compiler emit warnings if you use
 # any Qt feature that has been marked deprecated (the exact warnings
@@ -19,29 +16,14 @@ DEFINES += QT_DEPRECATED_WARNINGS
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
-    alwaysrun.cpp \
-    camera_impl.cpp \
-    eventloop.cpp \
-    eventthread.cpp \
     main.cpp \
-    camera.cpp
+    verificationdialog.cpp
 
 HEADERS += \
-    alwaysrun.h \
-    camera.h \
-    camera_impl.h \
-    eventloop.h \
-    eventthread.h \
-    image.h \
-    util.h
+    verificationdialog.h
 
 FORMS += \
-    camera.ui
-
-#INCLUDEPATH += D:\\third_party\\opencv4_3_0\\install\\include
-#LIBS += -LD:\\third_party\\opencv4_3_0\\install\x64\\mingw\\bin \
-#        -lopencv_core430 -lopencv_videoio430 -lopencv_imgcodecs430 \
-#        -lopencv_highgui430
+    verificationdialog.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
