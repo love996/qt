@@ -50,8 +50,8 @@ public:
     virtual void open(CameraError &e) noexcept;
     virtual void close(CameraError &e) noexcept;
     // 曝光
-    virtual void expose(int e);
-    virtual int expose() const;
+    virtual double expose(double exposure, CameraError &ec) noexcept;
+    virtual double expose() const;
     // 帧率
     virtual void fps(int f);
     virtual int fps() const;
